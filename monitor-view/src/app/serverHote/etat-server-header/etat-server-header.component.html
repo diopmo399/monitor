@@ -1,0 +1,10 @@
+<div class="etat" *ngIf="libelle">
+  <mat-chip-trailing-icon class="badge">
+
+    <mat-chip class=" badge pourcentage rounded-circle" [ngClass]="getClasse(pourcentage)">
+     {{pourcentage | pourcentage}}
+    </mat-chip>
+    {{libelle}}
+
+  </mat-chip-trailing-icon>
+</div>

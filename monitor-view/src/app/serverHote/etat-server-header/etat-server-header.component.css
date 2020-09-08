@@ -1,0 +1,29 @@
+.etat{
+  font-family: Serif, cursive, fantasy;
+  font-weight: lighter;
+  font-style: oblique;
+  font-size: larger;
+  margin-top: 6px;
+}
+.pourcentage {
+  font-size: larger;
+  color: aliceblue;
+}
+.excellent {
+  background-color: #009933;
+}
+.bonne {
+  background-color: #222bff;
+}
+.moyenne {
+  background-color: #ff20f2;
+}
+.faible {
+  background-color: #ff6600;
+}
+.mauvaise {
+  background-color: #ff3300;
+}
+.no-connexion {
+  background-color: #c3021e;
+}

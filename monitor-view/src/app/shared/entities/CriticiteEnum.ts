@@ -1,0 +1,7 @@
+export enum CriticiteEnum {
+  CRITIC = 'CRITIC', VERYCRITIC = 'VERYCRITIC',
+  VERYHIGH = 'VERYHIGH', HIGH = 'HIGH',
+  MEDIUM = 'MEDIUM',
+  LOW = 'LOW', VERYLOW = 'VERYLOW',
+  DEFAULT = 'DEFAULT'
+}

@@ -1,0 +1,55 @@
+<mat-card>
+    <mat-card-header class="justify-content-end">
+      <button class=" btn btn-outline-primary" (click)="toggleAddDisplay(null)">
+        <fa-icon icon="plus"></fa-icon>
+       Creation scenario
+     </button>
+    </mat-card-header>
+  <mat-card-content class="animated fadeInDown" [ngClass]="{'hide-content': addDisplay}">
+  <form [formGroup]="scenarioForm" (ngSubmit)="save()">
+    <div class="form-group" [hidden]="!scenarioForm.get('id').value">
+      <mat-form-field>
+        <input type="text"  formControlName="id"  matInput readonly >
+      </mat-form-field>
+    </div>
+
+    <div class="form-group form-row justify-content-center">
+
+      <mat-form-field  class="col-4" appearance="outline">
+        <mat-label>Server</mat-label>
+        <mat-select formControlName="serverHote">
+          <mat-option  *ngFor="let serverHote of serverHotes" [value]="serverHote">{{serverHote.nom}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="col-4" >
+        <mat-label>Taches</mat-label>
+        <mat-select multiple formControlName="taches" >
+          <mat-option *ngFor="let tache of LisTaches" [value]="tache" >{{tache}}</mat-option>
+        </mat-select>
+        <mat-error *ngIf="scenarioForm.get('taches').invalid">Veuillez selectionner une tache</mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="col-4">
+        <mat-label>Criticite</mat-label>
+        <mat-select formControlName="criticite" >
+          <mat-option *ngFor="let criticite of criticites" [value]="criticite" >{{criticite  | formatcriticite }}</mat-option>
+        </mat-select>
+        <mat-error *ngIf="scenarioForm.get('criticite').invalid">Veuillez selectionner le niveau de criticite</mat-error>
+      </mat-form-field>
+
+    </div>
+
+      <div align="center">
+        <div class="col-md-4">
+          <button  type="submit" class="btn btn-outline-primary"  [disabled]="!scenarioForm.valid || submitted" >
+            <fa-icon icon="save"></fa-icon>
+            Creer scenario
+          </button >
+        </div>
+      </div>
+
+  </form>
+  </mat-card-content>
+</mat-card>
+<br>

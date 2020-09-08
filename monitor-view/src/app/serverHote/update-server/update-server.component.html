@@ -1,0 +1,199 @@
+<mat-card>
+
+  <mat-card-header>
+    <mat-card-title>Server Hote</mat-card-title>
+  </mat-card-header>
+
+  <mat-vertical-stepper [linear]=true #stepper>
+    <mat-step [stepControl]="serverForm" >
+      <form [formGroup]="serverForm" (ngSubmit)="saveServer()">
+        <ng-template matStepLabel>Creation Serveur</ng-template>
+        <div class="form-group" [hidden]="!serverForm.get('id').value">
+          <mat-form-field>
+            <input type="text"  formControlName="id"  matInput readonly >
+          </mat-form-field>
+        </div>
+        <div class="form-group form-row">
+          <mat-form-field class="col-12" appearance="outline">
+            <mat-label>Nom du serveur</mat-label>
+            <input formControlName="nom" matInput>
+            <mat-error *ngIf="serverForm.get('port').invalid">Le nom du serveur est invalide</mat-error>
+          </mat-form-field>
+        </div>
+        <div class="form-group form-row">
+          <mat-form-field class="col-4" appearance="outline">
+            <mat-label >Adresse Ip ou domaine</mat-label>
+            <input formControlName="adressIp" matInput>
+            <mat-error *ngIf="serverForm.get('adressIp').invalid">L'adresse Ip du serveur est invalide</mat-error>
+          </mat-form-field>
+          <mat-form-field class="col-4" appearance="outline">
+            <mat-label >Port</mat-label>
+            <input type="number"  formControlName="port" matInput>
+            <mat-error *ngIf="serverForm.get('port').invalid">Le port du serveur est invalide</mat-error>
+          </mat-form-field>
+          <mat-form-field  class="col-4" appearance="outline">
+            <mat-label>Timeout</mat-label>
+            <input type="number" formControlName="timeout" matInput>
+            <span matSuffix>ms</span>
+          </mat-form-field>
+        </div>
+        <div class="form-group form-row">
+          <mat-form-field class="col-4" appearance="outline">
+            <mat-label>Login</mat-label>
+            <input formControlName="login" matInput>
+          </mat-form-field>
+          <mat-form-field class="col-4" appearance="outline">
+            <mat-label>Mot de passe</mat-label>
+            <input formControlName="password" matInput [type]="hide ? 'password' : 'text'">
+            <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Cacher mot de passe'" [attr.aria-pressed]="hide">
+              <fa-icon *ngIf="hide" icon="eye"></fa-icon>
+              <fa-icon *ngIf="!hide" icon="eye-slash"></fa-icon>
+            </button>
+          </mat-form-field>
+        </div>
+        <div align="center" >
+            <button mat-button matStepperNext class="btn bg-light" [disabled]="!serverForm.valid" >
+              <fa-icon icon="plus"></fa-icon>
+              <span class="badge">valider</span>
+            </button >
+        </div>
+      </form>
+    </mat-step>
+    <mat-step [stepControl]="serviceForm" optional=true >
+      <form [formGroup]="serviceForm" (ngSubmit)="addServiceServer()">
+        <ng-template matStepLabel>Creation Service</ng-template>
+        <div *ngIf="serverHote.services">
+          <mat-list>
+            <mat-list-item display="inline-block" *ngFor="let serviceServer of serverHote.services">
+              <span class="badge"> {{serviceServer.nomService}}</span>
+              <span class="badge"> {{serviceServer.method}}</span>
+              <span class="badge"> {{serviceServer.url}}</span>
+              <textarea *ngIf="serviceServer.content" class="badge"> {{serviceServer.content | json}}</textarea>
+              <fa-icon icon="times" align="right" (click)="deleteServerService(serviceServer)" class="col-offset-2 col-1  "></fa-icon>
+              <br>
+            </mat-list-item>
+          </mat-list>
+        </div>
+        <div class="form-group" [hidden]="!serviceForm.get('id').value">
+          <mat-form-field>
+            <input type="text"  formControlName="id"  matInput readonly >
+          </mat-form-field>
+        </div>
+        <div class="form-group form-row">
+          <mat-form-field class="col-12" appearance="outline">
+            <mat-label >Nom du service</mat-label>
+            <input formControlName="nom" matInput>
+            <mat-error *ngIf="serviceForm.get('nom').invalid">Le nom du service est obligatoire</mat-error>
+          </mat-form-field>
+        </div>
+        <div align="center" class="form-group form-row">
+          <mat-form-field class="col-2" appearance="outline">
+            <mat-label>Method</mat-label>
+            <mat-select [(value)]="selected" formControlName="method">
+              <mat-option *ngFor="let method of httpmethods" [value]="method">{{method}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field class="col-4" appearance="outline">
+            <mat-label>Url</mat-label>
+            <input  formControlName="url" matInput>
+          </mat-form-field>
+          <mat-form-field  [hidden]="!(selected == httpmethods[1])"  class="col-6" appearance="outline">
+            <mat-label>Content</mat-label>
+            <textarea  formControlName="content" matInput>
+              </textarea>
+          </mat-form-field>
+        </div>
+        <div align="center">
+          <div class="col-md-4">
+            <button mat-button type="submit" class="btn bg-light" [disabled]="!serviceForm.valid " >
+              <fa-icon icon="plus"></fa-icon>
+              <span class="badge">ajouter Service</span>
+            </button >
+          </div>
+          <button mat-button matStepperPrevious>Retour</button>
+          <button mat-button matStepperNext>Suivant</button>
+        </div>
+      </form>
+    </mat-step>
+    <mat-step [stepControl]="contactForm" optional=true >
+      <form [formGroup]="contactForm" (ngSubmit)="addContact()">
+        <ng-template matStepLabel>Contacts</ng-template>
+
+        <div *ngIf="serverHote.contacts">
+        <mat-list >
+          <mat-list-item display="inline-block" *ngFor="let contact of serverHote.contacts">
+            <span class="badge"> {{contact.nom}}</span>
+            <span class="badge"> {{contact.prenom}}</span>
+            <span class="badge"> {{contact.fonction}}</span>
+            <span class="badge"> {{contact.email}}</span>
+            <span class="badge"> {{contact.tel}}</span>
+            <fa-icon icon="times" align="right" (click)="deleteContact(contact)" class="col-offset-2 col-1"></fa-icon>
+            <br>
+          </mat-list-item>
+        </mat-list>
+
+        </div>
+        <div class="form-group" [hidden]="!contactForm.get('id').value">
+          <mat-form-field>
+            <input type="text"  formControlName="id"  matInput readonly >
+          </mat-form-field>
+        </div>
+        <div class="form-group form-row">
+          <mat-form-field class="col-6" appearance="outline">
+            <mat-label >Nom </mat-label>
+            <input formControlName="nom" matInput>
+            <mat-error *ngIf="contactForm.get('nom').invalid">Le nom est obligatoire</mat-error>
+          </mat-form-field>
+          <mat-form-field class="col-6" appearance="outline">
+            <mat-label>Prenom </mat-label>
+            <input formControlName="prenom" matInput>
+            <mat-error *ngIf="contactForm.get('prenom').invalid">Le prenom  est obligatoire</mat-error>
+          </mat-form-field>
+        </div>
+        <div align="center" class="form-group form-row">
+          <mat-form-field class="col-4" appearance="outline">
+            <mat-label>Email</mat-label>
+            <input  formControlName="email" matInput>
+            <mat-error *ngIf="contactForm.get('email').invalid">L'email est invalide</mat-error>
+          </mat-form-field>
+          <mat-form-field class="col-4" appearance="outline">
+            <mat-label>Telephone</mat-label>
+            <input placeholder="221778885522"  formControlName="telephone" matInput>
+            <mat-error *ngIf="contactForm.get('telephone').invalid">Le telephone est invalide</mat-error>
+          </mat-form-field>
+          <mat-form-field class="col-4" appearance="outline">
+            <mat-label>Fonction</mat-label>
+            <input  formControlName="fonction" matInput>
+            <mat-error *ngIf="contactForm.get('fonction').invalid">La fonction est invalide</mat-error>
+          </mat-form-field>
+        </div>
+        <div align="center">
+          <div class="col-md-4">
+            <button mat-button type="submit" class="btn bg-light" [disabled]="!contactForm.valid " >
+              <fa-icon icon="plus"></fa-icon>
+              <span class="badge">ajouter Contact</span>
+            </button >
+          </div>
+          <button mat-button matStepperPrevious>Retour</button>
+          <button mat-button matStepperNext>Suivant</button>
+        </div>
+      </form>
+    </mat-step>
+
+    <mat-step>
+      <ng-template matStepLabel>Confirmation</ng-template>
+      <br>
+      <div align="center">
+        <div class="col-md-4">
+          <button mat-button (click)="save()" class="btn bg-light" [disabled]="!serverForm.valid || submitted" >
+            <fa-icon icon="save"></fa-icon>
+            <span class="badge">Confirmer</span>
+          </button >
+        </div>
+        <button mat-button matStepperPrevious>Retour</button>
+        <button mat-button (click)="stepper.reset()">Reset</button>
+      </div>
+    </mat-step>
+  </mat-vertical-stepper>
+</mat-card>
+<br>

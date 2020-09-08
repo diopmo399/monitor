@@ -1,0 +1,113 @@
+version: '3.7'
+services:
+  monitor-discovery:
+    build: ./monitor-discovery
+    ports:
+      - 9003:9003
+    env_file:
+      - monitor.env
+    restart: on-failure
+
+  config-server:
+    build: ./config-server
+    ports:
+      - 9000:9000
+    env_file:
+      - config-server/config-server.env
+    depends_on:
+      - monitor-discovery
+    restart: on-failure
+
+  monitor-data:
+    build:  ./monitor-data
+    ports:
+      - 9001:9001
+    env_file:
+      - monitor-data/monitor-data.env
+    depends_on:
+      - monitor-discovery
+      - config-server
+      - monitor-database
+    restart: on-failure
+
+  monitor-gateway:
+    build: ./monitor-gateway
+    ports:
+      - 9002:9002
+    depends_on:
+      - monitor-discovery
+      - config-server
+    env_file:
+      - monitor.env
+    restart: on-failure
+
+  monitor-business:
+    build:  ./monitor-business
+    ports:
+      - 9004:9004
+    depends_on:
+      - monitor-discovery
+      - config-server
+    env_file:
+      - monitor.env
+    restart: on-failure
+
+  monitor-notification:
+    build:  ./monitor-notification
+    ports:
+      - 9005:9005
+    env_file:
+      - monitor.env
+    depends_on:
+      - monitor-discovery
+      - config-server
+    restart: on-failure
+
+  monitor-analyse:
+    build:  ./monitor-analyse
+    ports:
+      - 9006:9006
+    depends_on:
+      - monitor-discovery
+      - config-server
+    env_file:
+      - monitor.env
+    restart: on-failure
+
+  monitor-view:
+    build:  ./monitor-view
+    ports:
+      - 9080:80
+    environment:
+      - env=prod
+
+  #utility
+  monitor-database:
+    image: "postgres" # use latest official postgres version
+    ports:
+      - 9054:5432
+    env_file:
+      - database.env
+    volumes:
+      - ./dbinitKeycloak.sql:/docker-entrypoint-initdb.d/init.sql
+      - database-data=/var/lib/postgresql/data/
+    restart: on-failure
+
+  keycloak:
+    image: jboss/keycloak:latest
+    command:
+      - "-b"
+      - "0.0.0.0"
+      - "-Dkeycloak.migration.action=import"
+      - "-Dkeycloak.migration.provider=dir"
+      - "-Dkeycloak.migration.dir=/config/"
+      - "-Dkeycloak.migration.strategy=IGNORE_EXISTING"
+    volumes:
+      - ./config:/config/
+    env_file:
+      - keycloak.env
+    ports:
+      - "9007:8080"
+    depends_on:
+      - monitor-database
+    restart: on-failure

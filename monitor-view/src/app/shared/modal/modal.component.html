@@ -1,0 +1,16 @@
+<div class="modal-dial">
+  <div class="modal-header modal-title badge-light">
+    <h3>{{ modalData.title }}</h3>
+  </div>
+  <div class="modal-body">
+    <p>{{ modalData.description }}</p>
+  </div>
+  <mat-dialog-actions class="modal-footer">
+    <button type="button" class="btn btn-secondary  " (click)="closeModal()">
+      Retour
+    </button>
+    <button type="button" class="btn btn-primary " (click)="actionFunction()">
+      {{ modalData.actionButtonText }}
+    </button>
+  </mat-dialog-actions>
+</div>

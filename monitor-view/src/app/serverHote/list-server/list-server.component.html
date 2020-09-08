@@ -1,0 +1,61 @@
+<mat-card>
+  <mat-card-title>Etat Server</mat-card-title>
+  <mat-card-content class="list-server-container">
+
+    <!--contient le graph-->
+    <div class="graph animated fadeInDown" *ngIf="showedServer">
+      <app-detail-server [serverHote]="showedServer"></app-detail-server>
+    </div>
+    <br>
+    <!--contient la liste des servers-->
+    <div class="list-server" *ngIf="serverHotes">
+
+      <mat-grid-list cols="1" rowHeight="66" align="center">
+
+        <mat-grid-tile *ngFor="let serverHote of serverHotes"
+                       class="grid-list-item flex mat-elevation-z2"
+                       mat-ripple >
+
+          <mat-grid-tile-header class="server-header">
+
+            <h3 class="server-title">
+              <fa-icon icon="server">
+              </fa-icon>
+              {{serverHote.nom}}
+            </h3>
+
+            <div class="tableau">
+              <div  *ngIf="serverHote.etatServer">
+                <app-etat-server-header   [libelle]="'Service'" [pourcentage]="serverHote.etatServer.tauxEchecHttp">
+                </app-etat-server-header>
+              </div>
+              <div *ngIf="serverHote.etatServer" >
+                <app-etat-server-header   [libelle]="'Connectivité'" [pourcentage]="serverHote.etatServer.etatConnexion">
+                </app-etat-server-header>
+              </div>
+            </div>
+
+            <mat-card-actions align="end">
+              <button (click)="openGraph(serverHote)" class="badge rounded-circle btn-outline-primary">
+                <fa-icon  [icon]="'eye'"></fa-icon>
+              </button>
+              <button class="badge rounded-circle  btn-outline-secondary"
+                      [routerLink]="['/server', serverHote.id, 'update']">
+                <fa-icon  [icon]="'pencil-alt'"></fa-icon>
+              </button>
+              <button (click)="openModalDelete(serverHote)" class="badge rounded-circle  btn-outline-danger">
+                <fa-icon  [icon]="'times'"></fa-icon>
+              </button>
+            </mat-card-actions>
+
+          </mat-grid-tile-header>
+
+        </mat-grid-tile>
+
+
+      </mat-grid-list>
+
+    </div>
+  </mat-card-content>
+</mat-card>
+<br>

@@ -1,0 +1,39 @@
+<div class="sidenav-container" [class.sidenav-is-mobile]="mobileQuery.matches" >
+
+  <mat-toolbar color="primary" class="sidenav-toolbar">
+    <button mat-icon-button (click)="snav.toggle()">
+      <fa-icon icon='bars'></fa-icon>
+    </button>
+    <h1 class="app-name">ATPS Monitoring Platform</h1>
+    <div (click)="logout()" class="align-content-end">
+      <button class="btn btn-outline-light">
+      <fa-icon icon="sign-out-alt"></fa-icon>
+      Deconnexion
+      </button>
+    </div>
+  </mat-toolbar>
+
+  <mat-sidenav-container  class="sidenav-container"
+                         [style.marginTop.px]="56">
+    <mat-sidenav #snav [mode]="mobileQuery.matches ? 'over' : 'side'"
+                 [fixedInViewport]="mobileQuery.matches" fixedTopGap="56">
+
+      <app-menu-side (click)="snav.toggle()"></app-menu-side>
+
+    </mat-sidenav>
+
+    <mat-sidenav-content>
+      <div class="content">
+      <router-outlet>
+      </router-outlet>
+      <!-- Alert -->
+      <app-alert></app-alert>
+      <!-- Footer -->
+      <footer>
+
+      </footer>
+      </div>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+</div>
+

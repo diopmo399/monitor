@@ -1,0 +1,28 @@
+<mat-grid-list *ngIf="scenaris" rowHeight="49"  cols="1" align="center">
+  <mat-grid-tile *ngFor="let scenario of scenaris"
+                 class="grid-list-item flex mat-elevation-z2"
+                 mat-ripple >
+    <mat-grid-tile-header class="list-header">
+      <h3>
+        <fa-icon icon="film">
+        </fa-icon>
+        {{scenario.serverHote.nom}}
+      </h3>
+      <mat-card-actions align="end">
+        <button class="badge rounded-circle btn-outline-primary">
+          <fa-icon  [icon]="'eye'"></fa-icon>
+        </button>
+        <button class="badge rounded-circle  btn-outline-secondary"
+                [routerLink]="['/scenario', scenario.id, 'update']">
+          <fa-icon  [icon]="'pencil-alt'"></fa-icon>
+        </button>
+        <button (click)="openModalDelete(scenario)" class="badge rounded-circle  btn-outline-danger">
+          <fa-icon  [icon]="'times'"></fa-icon>
+        </button>
+      </mat-card-actions>
+    </mat-grid-tile-header>
+    <div type="bullet">
+
+    </div>
+  </mat-grid-tile>
+</mat-grid-list>

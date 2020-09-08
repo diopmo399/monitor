@@ -1,0 +1,19 @@
+import {IComposant} from './Composant';
+
+export interface IDisqueDur extends IComposant{
+  taille?: number;
+  tailleLibre?: number;
+  unite?: string;
+}
+
+export class DisqueDur implements IDisqueDur{
+  taille: number;
+  tailleLibre: number;
+  unite: string;
+
+  constructor(taille: number, tailleLibre: number, unite: string) {
+    this.taille = taille;
+    this.tailleLibre = tailleLibre;
+    this.unite = unite;
+  }
+}

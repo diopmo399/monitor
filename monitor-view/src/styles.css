@@ -1,0 +1,128 @@
+.h1, .h2, .h3, .h4, .h5,
+.span,
+.mat-card{
+  font-family:  Serif, 'DejaVu Sans', Arial, Helvetica, sans-serif,
+                -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans";
+}
+
+.mat-card-content .hide-content {
+  display: none;
+}
+
+/*app-list-server*/
+
+.list-header {
+  display: flex;
+  justify-content: space-between;
+}
+
+.server {
+  margin: 1%;
+  border-radius: 5px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+}
+
+/*version desktop*/
+@media (min-width: 768px) {
+  .tableau {
+    display: flex;
+  }
+}
+
+/*version mobile*/
+@media (max-width: 767px) {
+  .server-title {
+    min-width: 33%;
+  }
+}
+
+.server-header {
+  display: flex;
+  justify-content: space-between;
+  min-height: 65px;
+}
+
+/*app-dashboard */
+/*version desktop*/
+@media (min-width: 768px) {
+  .list-graph {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+  }
+  .graph{
+    min-width: 45%;
+  }
+}
+.graph{
+  margin-top: 5px;
+}
+
+/*fadin effect*/
+.animated {
+  animation-duration: 1s;
+  transition-duration: 1s;
+  transition-timing-function: ease-in-out;
+  animation-fill-mode: both;
+
+  -webkit-animation-duration: 1s;
+}
+
+.fadeInup{
+  animation-name: fadeInUp;
+}
+.fadeInDown{
+  animation-name: fadeInDown;
+}
+.fadeInRight{
+  animation-name: fadeInRight;
+}
+.fadeIn {
+  animation-name: fadeIn;
+}
+
+/*
+ * Keyframes
+ */
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, 100%, 0);
+  }
+
+  100% {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes fadeInDown {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, -100%, 0);
+  }
+
+  100% {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes fadeInRight {
+  0% {
+    opacity: 0;
+    transform: translate3d(100%, 0, 0);
+  }
+  100% {
+    opacity: 1;
+    transform: none;
+  }
+}

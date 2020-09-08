@@ -1,0 +1,18 @@
+import {IComposant} from './Composant';
+
+export interface IProcesseur extends IComposant {
+  nombreDeCoeur?: number;
+    frequeParCoeur?: number;
+    tauxUtilisation?: number;
+}
+
+export class Processeur implements IProcesseur {
+  nombreDeCoeur: number;
+  frequeParCoeur: number;
+  tauxUtilisation: number;
+  constructor(nombreDeCoeur: number, frequeParCoeur: number, tauxUtilisation: number) {
+    this.nombreDeCoeur = nombreDeCoeur;
+    this.frequeParCoeur = frequeParCoeur;
+    this.tauxUtilisation = tauxUtilisation;
+  }
+}

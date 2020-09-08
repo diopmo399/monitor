@@ -1,0 +1,16 @@
+<div class="chart-container">
+  <div align="center">
+    <mat-card-title> {{this.serverHote.nom}}
+    <fa-icon  class="alert-success" *ngIf="etat"  icon='arrow-up' ></fa-icon>
+    <fa-icon  class="alert-danger" *ngIf="!etat" icon='arrow-down' ></fa-icon>
+    </mat-card-title>
+  </div>
+  <canvas baseChart
+          [datasets]="barChartData"
+          [labels]="barChartLabels"
+          [options]="barChartOptions"
+          [plugins]="barChartPlugins"
+          [legend]="barChartLegend"
+          [chartType]="barChartType">
+  </canvas>
+</div>

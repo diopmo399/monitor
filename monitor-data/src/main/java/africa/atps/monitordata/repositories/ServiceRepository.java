@@ -1,0 +1,9 @@
+package africa.atps.monitordata.repositories;
+
+import africa.atps.monitordata.models.ServiceServer;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+@Repository
+public interface ServiceRepository extends JpaRepository<ServiceServer, Long> {
+}

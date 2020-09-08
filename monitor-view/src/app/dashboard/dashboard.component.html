@@ -1,0 +1,10 @@
+<mat-card>
+  <mat-card-title>Tableau de bord</mat-card-title>
+  <mat-card-content >
+    <div class="list-graph ">
+    <mat-card class="graph animated fadeInDown" *ngFor="let serverHote of serverHotes">
+      <app-detail-server [serverHote]="serverHote"></app-detail-server>
+    </mat-card>
+    </div>
+  </mat-card-content>
+</mat-card>
